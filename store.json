@@ -1,0 +1,7 @@
+{ "_id" : { "$oid" : "531805386a9d3061c0ff99f9" }, "prog" : [ "c", "g" ], "date" : { "$date" : 1394054328811 }, "duration" : 60, "times" : "34" }
+{ "_id" : { "$oid" : "531805ec6a9d3061c0ff99fa" }, "prog" : [ "d", "a" ], "date" : { "$date" : 1394054508877 }, "duration" : 60, "times" : "28" }
+{ "_id" : { "$oid" : "531806796a9d3061c0ff99fb" }, "prog" : [ "b7", "c" ], "date" : { "$date" : 1394054649329 }, "duration" : 60, "times" : "28" }
+{ "_id" : { "$oid" : "531806cd6a9d3061c0ff99fc" }, "prog" : [ "b7", "d7" ], "date" : { "$date" : 1394054733166 }, "duration" : 60, "times" : "22" }
+{ "_id" : { "$oid" : "531807536a9d3061c0ff99fd" }, "prog" : [ "d7", "g" ], "date" : { "$date" : 1394054867469 }, "duration" : 60, "times" : "28" }
+{ "_id" : { "$oid" : "531807cb6a9d3061c0ff99fe" }, "prog" : [ "f", "c" ], "date" : { "$date" : 1394054987912 }, "duration" : 60, "times" : "22" }
+{ "_id" : { "$oid" : "531808776a9d3061f0fa13fc" }, "prog" : [ "f", "g" ], "date" : { "$date" : 1394055159014 }, "duration" : 60, "times" : "12" }
