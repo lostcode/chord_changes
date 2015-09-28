@@ -3,6 +3,7 @@ import datetime
 import time
 import shelve
 import os
+import collections
 
 app = Flask(__name__)
 
@@ -15,6 +16,11 @@ app = Flask(__name__)
 # resp = make_response(template); resp.set_cookie('username', 'the username')
 
 SHELVE_FILENAME = "database"
+
+
+@app.route('/')
+def index():
+    return render_template('changes.html')
 
 
 @app.route('/hello/<name>')
@@ -34,10 +40,18 @@ def post_changes():
     :form times: number of times
     :form sec: optional number of seconds, default 60
     """
-    if CHORDS_REQ_STR not in request.form or NUM_CHANGES_REQ_STR not in request.form:
+    if NUM_CHANGES_REQ_STR not in request.form:
         return "need chords and num_changes", 400
-    chords = request.form[CHORDS_REQ_STR].split('-')
-    num_changes = request.form[NUM_CHANGES_REQ_STR]
+    chord_a = request.form.get('a', '').lower()
+    chord_b = request.form.get('b', '').lower()
+    if not chord_a or not chord_b:
+        return "need chords", 400
+
+    num_changes = request.form.get(NUM_CHANGES_REQ_STR, "")
+    if not num_changes:
+        return "need num changes", 400
+
+    chords = sorted([chord_a, chord_b])
     epoch_time = int(time.time())
     duration = request.form.get(DURATION_REQ_STR, 60)
 
@@ -49,7 +63,14 @@ def post_changes():
 
 @app.route('/changes', methods=['GET'])
 def get_changes():
-    return jsonify(results=get_all())
+    d = get_all()
+    od = collections.OrderedDict(sorted(d.items(), reverse=True))
+    results = []
+    for key, value in od.iteritems():
+        doc = {'time': key}
+        doc.update(value)
+        results.append(doc)
+    return jsonify(results=results)
 
 
 def insert(chords, num_changes, epoch_time, duration):

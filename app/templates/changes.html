@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HELLO WORLD</title>
+    <script type=text/javascript>
+        var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        function reload_recent_changes() {
+        }
+        $( document ).ready(function() {
+            $.getJSON($SCRIPT_ROOT + '/changes', {}, function(data) {})
+            .done(function(json_data) {
+                $.each(json_data.results, function(i, item) {
+                    var utcSeconds = item.time;
+                    var d = new Date(0);
+                    d.setUTCSeconds(utcSeconds);
+                    var date_string = d.toLocaleDateString() + " " + d.toLocaleTimeString();
+                    entry = date_string + ": " + item.chords[0] + ", " + item.chords[1] + ": = " + item.num_changes;
+                    $("#recent").append("<p>" + entry + "</p>");
+                });
+            });
+        });
+        $(function() {
+            $('#go').click(function() {
+                $.post($SCRIPT_ROOT + '/changes', {
+                    <!-- fixme: need form validation here -->
+                    a: $('input[name="a"]').val(),
+                    b: $('input[name="b"]').val(),
+                    num_changes: $('input[name="times"]').val()
+                }, function(data) {
+                    // todo: anything to do here?
+                })
+                .done(function() {
+                    // todo: reload just section 2 and not the whole page
+                    location.reload();
+                })
+                .fail(function(data) {
+                    // do stuff on fail
+                    alert('received fail from server' + data);
+                });
+                return false;
+            });
+        });
+    </script>
+    <h1>Chord Changes</h1>
+    <p>
+        <input type=text size=3 name=a> , <input type=text size=3 name=b> : times = <input type=text size=3 name=times>
+        <input type="submit" id=go value="Go">
+    </p>
+    <hr>
+    <div id="recent">
+        <h3>Recent Changes</h3>
+    </div>
+
+    <!-- todo: need recent changes section here -->
+</head>
+<body>
+
+</body>
+</html>
