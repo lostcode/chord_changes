@@ -1,0 +1,8 @@
+
+
+allow multiple logins
+
+use a proper database
+- shelve won't work for multiple users, unless you create a different shelve file for each user
+- shelve has problems with multiple processes/threads accessing it
+    - not an issue for now really
